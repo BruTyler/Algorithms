@@ -34,18 +34,47 @@ process.on('SIGINT', function () {
 });
 
 function readLine() {
-  return _inputLines[_curLine++];
+  return String(_inputLines[_curLine++])
 }
 
 function print(result) {
   process.stdout.write(String(result))
 }
 
-function solve() {
-  const a = parseInt(readLine(), 2)
-  const b = parseInt(readLine(), 2)
-  
-  const result = a + b
+function getReverseValue(inputString, forwardIndex) {
 
-  print(result.toString(2))
+  if(forwardIndex >= inputString.length)
+    return 0
+
+  const reverseIndex = inputString.length - 1 - forwardIndex
+  return Number(inputString.charAt(reverseIndex))
+}
+
+function solve() {
+  const A = readLine()
+  const B = readLine()
+  let buffer = 0
+  const result = []
+  const maxSize = Math.max(A.length, B.length)
+
+  for (let i = 0; i < maxSize; i++) {
+    const sum = getReverseValue(A, i) + getReverseValue(B, i) + buffer
+    // console.log('sum before:>> ', sum);
+    // console.log('buffer before :>> ', buffer);
+    if (sum > 1) {
+      result.unshift(sum % 2)
+      buffer = 1
+    } else {
+      result.unshift(sum)
+      buffer = 0
+    }
+    // console.log('result :>> ', result);
+    // console.log('buffer after :>> ', buffer);
+  }
+
+  //последний переполненный разряд переносим в ответ
+  if (buffer === 1)
+    result.unshift(buffer)
+
+  print(result.join(""))
 }
