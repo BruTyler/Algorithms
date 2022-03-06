@@ -1,3 +1,5 @@
+//удалить элемент по индексу в односвязном списке
+
 class Node {  
   constructor(value = null, next = null) {  
     this.value = value;  
@@ -6,7 +8,13 @@ class Node {
 }
 
 function solution(headNode, removeIndex) {
+  // let n = headNode
+  // while(n !== null) {
+  //   console.log(n.value)
+  //   n = n.next
+  // }
 
+  // console.log('===== :>> ');
   if (removeIndex === 0) {
     const newHead = headNode.next
     headNode.next = null
@@ -15,22 +23,25 @@ function solution(headNode, removeIndex) {
 
   let currentNode = headNode
   let prevNode = null
-  let isIndexNotFound = false
   let currentNodeIndex = 0
 
-  while (currentNodeIndex !== removeIndex) {
-    currentNode = currentNode.next
-    prevNode = currentNode
-    currentNodeIndex++
-
-    if(currentNode.next === null) {
-      isIndexNotFound = true
+  while (currentNode !== null) {
+    if(currentNodeIndex === removeIndex) {
+      prevNode.next = currentNode.next
       break
     }
+
+    prevNode = currentNode
+    currentNode = currentNode.next
+    
+    currentNodeIndex++
   }
 
-  if(!isIndexNotFound)
-    prevNode.next = currentNode.next
+  // n = headNode
+  // while(n !== null) {
+  //   console.log(n.value)
+  //   n = n.next
+  // }
 
   return headNode
 }
@@ -43,5 +54,3 @@ function test() {
   var newHead = solution(node0, 1);
   // result is node0 -> node2 -> node3
 }
-
-//test();
