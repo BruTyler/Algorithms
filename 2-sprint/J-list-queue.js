@@ -95,7 +95,7 @@ class LinkedQueue {
     this.currentSize--
 
     //head сдвинуть
-    this.head = node.next
+    this.head = node && node.next
     //console.log('extract node :>> ', node);
     //console.log('new head  :>> ', this.head);
 
