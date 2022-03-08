@@ -74,6 +74,9 @@ class LinkedQueue {
     const newNode = new Node(item)
     newNode.setNext(this.tail)
     //console.log('newNode :>> ', newNode);
+    if(this.tail !== null)
+      this.tail.setPrev(newNode)
+
     this.tail = newNode
 
     if (this.currentSize === 0) {
@@ -82,7 +85,11 @@ class LinkedQueue {
       this.head.setPrev(newNode)
     }
 
-    this.currentSize++ 
+    this.currentSize++
+
+    //console.log('newNode :>> ', newNode);
+    //console.log('this.head :>> ', this.head);
+    //console.log('this.tail :>> ', this.tail);
 
     return newNode
   }
@@ -92,14 +99,25 @@ class LinkedQueue {
       return null
 
     const node = this.head
+    //console.log('node :>> ', node);
+    if (this.currentSize === 1) {
+      //console.log('this.currentSize === 1!!!! :>> ');
+      this.currentSize = 0
+      this.head = null
+      this.tail = null
+      return node.value
+    }
+
+    //console.log('get  this.head:>> ', this.head);
     this.currentSize--
 
     //head сдвинуть
-    this.head = node && node.next
+    this.head = node.prev
+
     //console.log('extract node :>> ', node);
     //console.log('new head  :>> ', this.head);
 
-    return node && node.value
+    return node.value
   }
 
   size() {
@@ -116,7 +134,11 @@ function execute(commandLine, queue) {
 
     case 'get':
       const item = queue.get()
-      print(item || 'error')
+
+      item === null
+        ? print('error')
+        : print(item)
+
       break
 
     case 'size':
@@ -134,7 +156,9 @@ function solve() {
   const queue = new LinkedQueue()
 
   for (let index = 0; index < commandSize; index++) {
+    
     const command = readLine()
+    //print('--> ' + command)
     execute(command, queue)
   }
 }
