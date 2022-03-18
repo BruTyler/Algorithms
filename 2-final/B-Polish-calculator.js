@@ -20,7 +20,6 @@ B. Калькулятор
 10 2 4 * -
 означает 10 - 2 * 4 и равно 2
 
-https://contest.yandex.ru/contest/22781/run-report/65920082/
 */
 
 /*

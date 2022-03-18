@@ -20,7 +20,6 @@ Value — целое число, по модулю не превосходяще
 Формат вывода
 Выведите результат выполнения каждой команды на отдельной строке. Для успешных запросов push_back(x) и push_front(x) ничего выводить не надо.
 
-https://contest.yandex.ru/contest/22781/run-report/65919140/
 */
 
 /*
@@ -123,10 +122,11 @@ class Dequeue {
     let currentPointer = this.pointer[direction]
     //переходим к следующей пустой ячейке
     if (this.currentSize !== 0) {
-      if (direction === DIRECTION.front)
+      if (direction === DIRECTION.front) {
         this.pointer[direction]--
-      else
+      } else {
         this.pointer[direction]++
+      }
 
       this._fixPointerBorder(direction)
       currentPointer = this.pointer[direction]
@@ -146,16 +146,17 @@ class Dequeue {
     let currentPointer = this.pointer[direction]
 
     const item = this.items[currentPointer]
-    delete this.items[currentPointer]
+    this.items[currentPointer] = null
     this.currentSize--
 
     //ищем ближайшую НЕпустую ячейку
     if (this.currentSize !== 0) {
-      if (direction === DIRECTION.front)
-        this.pointer[direction]++
-      else
-        this.pointer[direction]--
 
+      if (direction === DIRECTION.front) {
+        this.pointer[direction]++
+      } else {
+        this.pointer[direction]--
+      }
       this._fixPointerBorder(direction)
     }
 
@@ -163,10 +164,11 @@ class Dequeue {
   }
 
   _fixPointerBorder(direction) {
-    if (this.pointer[direction] < 0)
+    if (this.pointer[direction] < 0) {
       this.pointer[direction] += this.maxSize
-    else if (this.pointer[direction] >= this.maxSize)
+    } else if (this.pointer[direction] >= this.maxSize) {
       this.pointer[direction] -= this.maxSize
+    }
   }
 }
 
@@ -177,25 +179,23 @@ function execute(commandLine, dequeue) {
     case 'push_back':
       const isSucceedBack = dequeue.push(Number(commands[1]), DIRECTION.back)
       if (!isSucceedBack)
-        message = ERROR_MESSAGE //+ ' push_back --->' + dequeue.items + ' -=====- F:' + dequeue.pointer.front + ', B:' + dequeue.pointer.back
+        message = ERROR_MESSAGE
       break
 
     case 'push_front':
       const isSucceedFront = dequeue.push(Number(commands[1]), DIRECTION.front)
       if (!isSucceedFront)
-        message = ERROR_MESSAGE //+ ' push_front --->' + dequeue.items + ' -=====- F:' + dequeue.pointer.front + ', B:' + dequeue.pointer.back
+        message = ERROR_MESSAGE
       break
 
     case 'pop_back':
       const backItem = dequeue.pop(DIRECTION.back)
       message = backItem !== undefined ? backItem : ERROR_MESSAGE
-      //message += ' pop_back --->' + dequeue.items + ' -=====- F:' + dequeue.pointer.front + ', B:' + dequeue.pointer.back
       break
 
     case 'pop_front':
       const frontItem = dequeue.pop(DIRECTION.front)
       message = frontItem !== undefined ? frontItem : ERROR_MESSAGE
-      //message += ' pop_front --->' + dequeue.items + ' -=====- F:' + dequeue.pointer.front + ', B:' + dequeue.pointer.back
       break
 
     default:
